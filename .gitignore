@@ -1,4 +1,9 @@
 build/
+.env
+/roms/
+/bios/
+/emulators/
+/saves/
 patch/
 *.log
 retrobat.ini
@@ -14,3 +19,9 @@ retrobat-*.zip
 retrobat-*.zip.sha256.txt
 InstallerHost.exe.config
 RetroBuild.exe.config
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
+.project-memory-backups/
+/NVIDIA Corporation/

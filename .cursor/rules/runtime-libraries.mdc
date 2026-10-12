@@ -1,0 +1,14 @@
+---
+description: ROM 与 BIOS 库怎么放，以及 Git Bash 在 Windows 上的限制
+alwaysApply: true
+---
+
+# 运行库与 Git Bash
+
+- ROM 库和 BIOS 库只由仓库根 `.env` 的 `RETROBAT_ROMS`、`RETROBAT_BIOS` 指定。相对路径是仓库内被忽略的目录；绝对路径做成仓库根的目录联接。
+- 不提交 `.env`、ROM、BIOS dump、`emulators/`、`saves/`、`build/`。
+- 不下载商业 ROM 或 PS1 BIOS，也不把盗版站地址写进文档或脚本。机器上已有的文件可以使用。
+- 不改 `system/templates/` 和 `build.ini`。运行时配置写到 `build/config/` 和已安装的模拟器目录。
+- `bios` 同时是 `.gitmodules` 里的 `retrobat-bios` 子模块。`/bios/` 只挡住未跟踪的 dump，不要 `git rm` 这个子模块。
+- 从 Git Bash 调用 Windows 时用 `cmd.exe`。`cmd` 会进 MSYS 的 `/usr/bin/cmd`。
+- MSYS `find` 不进入 Windows 目录联接。先用 PowerShell 取 `Target`，再 `cygpath -u`。把 `E:\...` 直接交给 `md5sum` 会吃掉反斜杠。

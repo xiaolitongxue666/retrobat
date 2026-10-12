@@ -1,0 +1,13 @@
+# RetroBat emulator pin list. Tab-separated.
+# id, channel, url, filename, dest (relative to RetroBat root), members
+# channel: pinned | latest
+# members: "file" copies the download as-is; a comma list extracts only those
+# archive members; empty extracts the whole archive and flattens to dest.
+# sha256 is recorded in build/lock.tsv on first successful download.
+# sync --update refreshes channel=latest only.
+
+sevenzip	pinned	https://www.7-zip.org/a/7zr.exe	7zr.exe	build/tools	file
+retroarch	pinned	https://buildbot.libretro.com/stable/1.22.2/windows/x86_64/RetroArch.7z	RetroArch.7z	emulators/retroarch	
+cores	pinned	https://buildbot.libretro.com/stable/1.22.2/windows/x86_64/RetroArch_cores.7z	RetroArch_cores.7z	emulators/retroarch/cores	mesen_libretro.dll,fceumm_libretro.dll,nestopia_libretro.dll,genesis_plus_gx_libretro.dll,picodrive_libretro.dll,blastem_libretro.dll,snes9x_libretro.dll,bsnes_libretro.dll,swanstation_libretro.dll,mednafen_psx_hw_libretro.dll,pcsx_rearmed_libretro.dll
+mesen	pinned	https://github.com/nesdev-org/MesenCE/releases/download/2.2.1/Mesen_2.2.1_Windows.zip	Mesen_2.2.1_Windows.zip	emulators/mesen	
+duckstation	latest	https://github.com/stenzek/duckstation/releases/download/latest/duckstation-windows-x64-release.zip	duckstation-windows-x64-release.zip	emulators/duckstation	
