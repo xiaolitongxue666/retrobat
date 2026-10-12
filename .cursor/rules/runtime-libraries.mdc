@@ -6,9 +6,11 @@ alwaysApply: true
 # 运行库与 Git Bash
 
 - ROM 库和 BIOS 库只由仓库根 `.env` 的 `RETROBAT_ROMS`、`RETROBAT_BIOS` 指定。相对路径是仓库内被忽略的目录；绝对路径做成仓库根的目录联接。
-- 不提交 `.env`、ROM、BIOS dump、`emulators/`、`saves/`、`build/`。
-- 不下载商业 ROM 或 PS1 BIOS，也不把盗版站地址写进文档或脚本。机器上已有的文件可以使用。
-- 不改 `system/templates/` 和 `build.ini`。运行时配置写到 `build/config/` 和已安装的模拟器目录。
+- 脚本只扫描 `nes`、`megadrive`、`snes`、`psx`。库目录若用展示名，要在库根加同名目录联接。Python `os.walk` 会进入联接，MSYS `find` 不会。
+- 支持 Windows 10（10.0 build < 22000）和 Windows 11（build >= 22000）。`doctor` 打印 10 或 11。下载和配置不按系统分叉。中文 `ver` 的“版本”是 GBK，解析 build 时只保留数字和点。
+- 不提交 `.env`、ROM、BIOS dump、`emulators/`、`saves/`、`build/`、`manage/`。
+- 不下载商业 ROM 或 PS1 BIOS，也不把盗版站地址写进文档或脚本。机器上已有的文件可以使用。需要代理时把 `HTTP_PROXY` 和 `HTTPS_PROXY` 写进 `.env`，`curl` 会沿用。
+- 不改 `system/templates/` 和 `build.ini`。运行时配置写到 `build/config/` 和已安装的模拟器目录。`manage/` 是旧的 Fusion、FCEUX、Snes9x 流程，不要执行。
 - `bios` 同时是 `.gitmodules` 里的 `retrobat-bios` 子模块。`/bios/` 只挡住未跟踪的 dump，不要 `git rm` 这个子模块。
 - 从 Git Bash 调用 Windows 时用 `cmd.exe`。`cmd` 会进 MSYS 的 `/usr/bin/cmd`。
-- MSYS `find` 不进入 Windows 目录联接。先用 PowerShell 取 `Target`，再 `cygpath -u`。把 `E:\...` 直接交给 `md5sum` 会吃掉反斜杠。
+- MSYS `find` 不进入 Windows 目录联接。先用 PowerShell 取 `Target`，再 `cygpath -u`。把 `D:\...` 这种 Windows 路径直接交给 `md5sum` 会吃掉反斜杠。

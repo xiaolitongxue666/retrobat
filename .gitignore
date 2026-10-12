@@ -1,5 +1,6 @@
 build/
 .env
+/manage/
 /roms/
 /bios/
 /emulators/

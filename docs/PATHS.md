@@ -175,8 +175,12 @@ RETROBAT_BIOS=bios
 - 值为 `roms` 或 `bios`：库就在仓库内部，由 `.gitignore` 排除。
 - 值为其他绝对路径：`./scripts/retro.bash link` 把仓库里的同名目录做成联接，不复制文件。
 - `retrobat-paths.sh` 在目录是联接时多打印一行 `->` 物理路径。
+- `cmd_roms` 只遍历 `nes`、`megadrive`、`snes`、`psx`。库里若是展示名目录，在库根为这四个 id 做目录联接，文件仍留在展示名目录。
+- 可选的 `HTTP_PROXY` 和 `HTTPS_PROXY` 写在 `.env`。`scripts/lib/common.bash` 的 `load_env` 会导出它们，`curl` 下载模拟器时沿用。不需要代理就不要设置。
 
 换盘时只改 `.env`，再执行 `link`。
+
+`windows_release` 用 `cmd.exe //c ver` 区分 Windows 10 和 11：`10.0` 的 build 小于 22000 为 10，否则为 11。中文系统的“版本”是 GBK，解析时只保留数字和点。下载和配置不按系统分叉。
 
 ## 8. 常见问题
 

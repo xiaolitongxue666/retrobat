@@ -6,7 +6,7 @@ alwaysApply: true
 # PS1 BIOS
 
 - PS1 BIOS 必须恰好 524288 字节。DuckStation 按 MD5 识别，不看文件名。用 `scripts/ps1-bios-verify.sh` 对照 `scripts/ps1-bios-hashes.csv`。
-- 模拟器不打开 BIOS zip。独立 dump 放在 BIOS 库根目录。
+- 模拟器不打开 BIOS zip。独立 dump 放在 BIOS 库根目录。4 MiB 的 PS2 BIOS 不能放进这里。
 - 光盘区域必须和 BIOS 区域一致。缓存的 Metal Slug X（`SLUS-01212`）是 NTSC-U，对应 `scph5501.bin`。
 - 校验脚本的区域行是 `NTSC-U  [ok]`（`%-7s` 补了空格）。匹配时用 `NTSC-U[[:space:]]+\[ok\]`。
 - RetroArch 核心在 `system_directory` 里找 BIOS。已安装的 `retroarch.cfg` 默认是 `:\system`，append 配置要改成仓库 `bios`。

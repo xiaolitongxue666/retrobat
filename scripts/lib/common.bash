@@ -48,6 +48,12 @@ load_env() {
     case "$key" in
       RETROBAT_ROMS) RETROBAT_ROMS="$value" ;;
       RETROBAT_BIOS) RETROBAT_BIOS="$value" ;;
+      HTTP_PROXY|http_proxy)
+        export http_proxy="$value" HTTP_PROXY="$value"
+        ;;
+      HTTPS_PROXY|https_proxy)
+        export https_proxy="$value" HTTPS_PROXY="$value"
+        ;;
     esac
   done < "$file"
   RETROBAT_ROMS="${RETROBAT_ROMS:-roms}"
@@ -61,14 +67,19 @@ require_git_bash() {
 }
 
 windows_release() {
-  local ver build
+  local ver digits build
   ver="$(cmd.exe //c ver)"
+  ver="${ver//$'\r'/}"
   if [[ "$ver" != *"10.0."* ]]; then
-    die "Windows 10 or 11 required, got: ${ver//$'\r'/}"
+    die "Windows 10 or 11 required, got: $ver"
   fi
-  build="$(printf '%s' "$ver" | sed -n 's/.*10\.0\.\([0-9][0-9]*\).*/\1/p')"
-  if [[ -z "$build" ]]; then
-    die "cannot parse Windows build from: ${ver//$'\r'/}"
+  # Chinese Windows prints 版本 in GBK. sed '.' does not cross those bytes,
+  # so keep only ASCII digits and dots before taking the build.
+  digits="$(printf '%s' "$ver" | tr -cd '0-9.')"
+  build="${digits#*10.0.}"
+  build="${build%%.*}"
+  if [[ ! "$build" =~ ^[0-9]+$ ]]; then
+    die "cannot parse Windows build from: $ver"
   fi
   if (( build >= 22000 )); then
     printf '11\n'
