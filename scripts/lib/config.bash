@@ -16,10 +16,13 @@ cmd_config() {
 }
 
 write_retroarch_append() {
-  local saves bios
+  local saves bios playlists
   saves="$(mixed_path "$ROOT/saves")"
   # Installed retroarch.cfg leaves system_directory at ":\system", so cores miss the BIOS library.
   bios="$(mixed_path "$ROOT/bios")"
+  playlists="$(mixed_path "$CONFIG_DIR/playlists")"
+  # Bluetooth 8BitDo Ultimate 2.4G with the rear switch on D is DirectInput.
+  mkdir -p "$CONFIG_DIR/playlists"
   cat > "$APPEND_CFG" <<EOF
 user_language = "12"
 video_scale_integer = "true"
@@ -34,7 +37,9 @@ savestate_directory = "${saves}"
 savestate_auto_save = "true"
 savestate_auto_load = "true"
 stdin_cmd_enable = "true"
-input_joypad_driver = "xinput"
+input_joypad_driver = "dinput"
+input_autodetect_enable = "true"
+playlist_directory = "${playlists}"
 pause_nonactive = "false"
 EOF
 }

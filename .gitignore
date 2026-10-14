@@ -3,6 +3,9 @@ build/
 /manage/
 /roms/
 /bios/
+# Library sidecars written by scripts/lib/roms.bash.
+**/.cache/
+**/.unpacked/
 /emulators/
 /saves/
 patch/

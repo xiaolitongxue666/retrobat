@@ -60,7 +60,7 @@ assert_config() {
   local file="$APPEND_CFG"
   local key
   [[ -f "$file" ]] || { fail "missing $file"; return; }
-  for key in 'user_language = "12"' 'video_scale_integer = "true"' 'aspect_ratio_index = "22"' 'input_joypad_driver = "xinput"'; do
+  for key in 'user_language = "12"' 'video_scale_integer = "true"' 'aspect_ratio_index = "22"' 'input_joypad_driver = "dinput"' 'input_autodetect_enable = "true"'; do
     if grep -qF "$key" "$file"; then
       pass "config $key"
     else

@@ -7,6 +7,8 @@ alwaysApply: true
 
 - ROM 库和 BIOS 库只由仓库根 `.env` 的 `RETROBAT_ROMS`、`RETROBAT_BIOS` 指定。相对路径是仓库内被忽略的目录；绝对路径做成仓库根的目录联接。
 - 脚本只扫描 `nes`、`megadrive`、`snes`、`psx`。库目录若用展示名，要在库根加同名目录联接。Python `os.walk` 会进入联接，MSYS `find` 不会。
+- 日常入口是 `./scripts/retro.bash menu`。它把压缩包解到库根 `.unpacked/<平台>/<压缩包名>/`，播放列表写到 `build/config/playlists/`。`.cache/` 每个平台只留一份 smoke，给 `play` 和 `test`。`.cache/` 和 `.unpacked/` 不提交。
+- RetroArch 手柄驱动是 `dinput`。八位堂猎户座蓝牙时背后开关在 D。按键在菜单端口 1 设一次，四个核心共用。`menu` 不写 `config_save_on_exit = false`。
 - 支持 Windows 10（10.0 build < 22000）和 Windows 11（build >= 22000）。`doctor` 打印 10 或 11。下载和配置不按系统分叉。中文 `ver` 的“版本”是 GBK，解析 build 时只保留数字和点。
 - 不提交 `.env`、ROM、BIOS dump、`emulators/`、`saves/`、`build/`、`manage/`。
 - 不下载商业 ROM 或 PS1 BIOS，也不把盗版站地址写进文档或脚本。机器上已有的文件可以使用。需要代理时把 `HTTP_PROXY` 和 `HTTPS_PROXY` 写进 `.env`，`curl` 会沿用。

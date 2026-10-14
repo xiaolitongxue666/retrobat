@@ -6,6 +6,7 @@
 #   ./scripts/retro.bash sync [--update]
 #   ./scripts/retro.bash config
 #   ./scripts/retro.bash roms
+#   ./scripts/retro.bash menu
 #   ./scripts/retro.bash test
 #   ./scripts/retro.bash play retroarch nes mesen
 #   ./scripts/retro.bash play mesen
@@ -26,11 +27,13 @@ source "$SCRIPT_SELF/lib/config.bash"
 source "$SCRIPT_SELF/lib/roms.bash"
 # shellcheck source=lib/test.bash
 source "$SCRIPT_SELF/lib/test.bash"
+# shellcheck source=lib/menu.bash
+source "$SCRIPT_SELF/lib/menu.bash"
 
 load_env
 
 usage() {
-  sed -n '2,12p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
+  sed -n '2,13p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
 }
 
 cmd="${1:-help}"
@@ -48,6 +51,7 @@ case "$cmd" in
     ;;
   config) cmd_config "$@" ;;
   roms) cmd_roms "$@" ;;
+  menu) cmd_menu "$@" ;;
   test) cmd_test "$@" ;;
   play) cmd_play "$@" ;;
   -h|--help|help) usage ;;
