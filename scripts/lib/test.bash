@@ -67,6 +67,46 @@ assert_config() {
       fail "config missing $key"
     fi
   done
+  local pad="$ROOT/emulators/retroarch/autoconfig/dinput/8BitDo_Ultimate_wireless_Controller.cfg"
+  [[ -f "$pad" ]] || { fail "joypad profile missing"; return; }
+  for key in \
+    'input_b_btn = "0"' \
+    'input_r_y_plus_axis = "+5"' \
+    'input_r_y_minus_axis = "-5"' \
+    'input_l2_btn = "8"' \
+    'input_r2_btn = "9"'
+  do
+    if grep -qF "$key" "$pad"; then
+      pass "joypad $key"
+    else
+      fail "joypad missing $key"
+    fi
+  done
+  if grep -qF 'input_r_y_plus_axis = "+3"' "$pad"; then
+    fail "joypad udev right stick axis"
+  else
+    pass "joypad right stick axis 5"
+  fi
+  if grep -qE '^input_l2_axis |^input_r2_axis ' "$pad"; then
+    fail "joypad triggers are axes"
+  else
+    pass "joypad triggers are buttons"
+  fi
+  local alt
+  alt="$(dirname "$pad")/8BitDo_Ultimate_wireless_Controller_alt.cfg"
+  if [[ -f "$alt" ]]; then
+    if grep -qF 'input_b_btn = "0"' "$alt" \
+      && grep -qF 'input_r_y_plus_axis = "+5"' "$alt" \
+      && grep -qF 'input_r_y_minus_axis = "-5"' "$alt" \
+      && grep -qF 'input_l2_btn = "8"' "$alt" \
+      && grep -qF 'input_r2_btn = "9"' "$alt" \
+      && ! grep -qF 'input_r_y_plus_axis = "+3"' "$alt" \
+      && ! grep -qF "input_device = \"$JOYPAD_DEVICE_NAME\"" "$alt"; then
+      pass "joypad alias keeps button numbers"
+    else
+      fail "joypad alias button numbers"
+    fi
+  fi
   if grep -q 'savefile_directory' "$file" && grep -q 'savestate_directory' "$file"; then
     pass "config save directories"
   else
@@ -209,9 +249,18 @@ launch_core() {
     return
   fi
   pass "$system/$core"
+  # A connected Ultimate must show this profile's display name. The
+  # bundled F30 profile also contains "8BitDo", so that string alone is
+  # not a pass. No pad at all stays a skip.
   if [[ -z "${JOYPAD_SEEN:-}" ]]; then
     JOYPAD_SEEN=1
-    if grep -qiE '\[Input\] Device|autoconfig:|Controller port [0-9]+' "$log"; then
+    if grep -q '8BitDo' "$log"; then
+      if grep -qE '8BitDo_Ultimate_wireless_Controller|8BitDo Ultimate 2\.4g Controller|8BitDo Ultimate wireless Controller for PC' "$log"; then
+        pass "gamepad autoconfig in $system/$core log"
+      else
+        fail "gamepad autoconfig missing in $system/$core log"
+      fi
+    elif grep -qiE '\[Input\] Device|autoconfig:|Controller port [0-9]+' "$log"; then
       pass "gamepad mentioned in $system/$core log"
     else
       skip "gamepad not connected"

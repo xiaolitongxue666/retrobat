@@ -9,7 +9,8 @@ alwaysApply: true
 - 脚本只扫描 `nes`、`megadrive`、`snes`、`psx`。库目录若用展示名，要在库根加同名目录联接。Python `os.walk` 会进入联接，MSYS `find` 不会。
 - 日常入口是 `./scripts/retro.bash menu`。它把压缩包解到库根 `.unpacked/<平台>/<压缩包名>/`，播放列表写到 `build/config/playlists/`。`.cache/` 每个平台只留一份 smoke，给 `play` 和 `test`。`.cache/` 和 `.unpacked/` 不提交。
 - 桌面快捷方式由 `./scripts/desktop-shortcut.bash` 生成。官方 `resources/retrobat_icon.ico` 下到 `build/desktop/retrobat_icon.ico`，不提交。`.lnk` 不能设环境变量，目标是 `cmd.exe`：先 `set MSYSTEM=MINGW64`，再调用 Git 安装根的 `bin\bash.exe --login` 执行 `menu`。这个 bash 从 `git` 向上找，不用 `usr\bin\bash.exe`。桌面目录用 `[Environment]::GetFolderPath('Desktop')`。关掉 RetroArch 后，bash 和控制台一起退出。
-- RetroArch 手柄驱动是 `dinput`。八位堂猎户座蓝牙时背后开关在 D。按键在菜单端口 1 设一次，四个核心共用。`menu` 不写 `config_save_on_exit = false`。
+- RetroArch 手柄驱动是 `dinput`。八位堂猎户座背后开关在 D。四个核心共用 `emulators/retroarch/autoconfig/dinput/` 里的官方档案：下 A、右 B、左 X、上 Y 对应 RetroPad B、A、Y、X，LT/RT 是按钮 8/9，右摇杆上下是轴 5。星号、配置键、P1、P2 不写。脚本不写 `input_player1_*`，也不写 Mesen.exe 和 DuckStation 的按键。`menu` 不写 `config_save_on_exit = false`。
+- 这台蓝牙手柄是 `2dc8:3012`。RetroArch 的设备名是 32 字符的 `Bluetooth Wireless Controller`（末尾三个空格）。自带 F30 档案用同一个名字，亲和度 20，会抢先绑上。读到这只手柄时另写别名，名字用这串，vendor/product 用 `11720`/`12306`，按钮号不变。winmm 的「Microsoft 电脑游戏杆驱动程序」不是 RetroArch 用来匹配的名字。
 - 支持 Windows 10（10.0 build < 22000）和 Windows 11（build >= 22000）。`doctor` 打印 10 或 11。下载和配置不按系统分叉。中文 `ver` 的“版本”是 GBK，解析 build 时只保留数字和点。
 - 不提交 `.env`、ROM、BIOS dump、`emulators/`、`saves/`、`build/`、`manage/`。
 - 不下载商业 ROM 或 PS1 BIOS，也不把盗版站地址写进文档或脚本。机器上已有的文件可以使用。需要代理时把 `HTTP_PROXY` 和 `HTTPS_PROXY` 写进 `.env`，`curl` 会沿用。
