@@ -176,6 +176,7 @@ RETROBAT_BIOS=bios
 - 值为其他绝对路径：`./scripts/retro.bash link` 把仓库里的同名目录做成联接，不复制文件。
 - `retrobat-paths.sh` 在目录是联接时多打印一行 `->` 物理路径。
 - `cmd_roms` 只遍历 `nes`、`megadrive`、`snes`、`psx`。库里若是展示名目录，在库根为这四个 id 做目录联接，文件仍留在展示名目录。`.cache/<平台>/` 留一份 smoke。`.unpacked/<平台>/<压缩包名>/` 放全部可玩镜像。`./scripts/retro.bash menu` 用后者生成 `build/config/playlists/` 里的四份 `.lpl` 并打开 RetroArch 菜单。
+- `./scripts/desktop-shortcut.bash` 在桌面生成 `RetroBat.lnk`，双击仍执行 `menu`。图标在 `build/desktop/retrobat_icon.ico`，不提交。快捷方式的目标是 `cmd.exe`，由它设置 `MSYSTEM` 后再启动 Git 的 `bin\bash.exe`。
 - 可选的 `HTTP_PROXY` 和 `HTTPS_PROXY` 写在 `.env`。`scripts/lib/common.bash` 的 `load_env` 会导出它们，`curl` 下载模拟器时沿用。不需要代理就不要设置。
 
 换盘时只改 `.env`，再执行 `link`。

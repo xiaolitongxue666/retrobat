@@ -8,6 +8,7 @@ alwaysApply: true
 - ROM 库和 BIOS 库只由仓库根 `.env` 的 `RETROBAT_ROMS`、`RETROBAT_BIOS` 指定。相对路径是仓库内被忽略的目录；绝对路径做成仓库根的目录联接。
 - 脚本只扫描 `nes`、`megadrive`、`snes`、`psx`。库目录若用展示名，要在库根加同名目录联接。Python `os.walk` 会进入联接，MSYS `find` 不会。
 - 日常入口是 `./scripts/retro.bash menu`。它把压缩包解到库根 `.unpacked/<平台>/<压缩包名>/`，播放列表写到 `build/config/playlists/`。`.cache/` 每个平台只留一份 smoke，给 `play` 和 `test`。`.cache/` 和 `.unpacked/` 不提交。
+- 桌面快捷方式由 `./scripts/desktop-shortcut.bash` 生成。官方 `resources/retrobat_icon.ico` 下到 `build/desktop/retrobat_icon.ico`，不提交。`.lnk` 不能设环境变量，目标是 `cmd.exe`：先 `set MSYSTEM=MINGW64`，再调用 Git 安装根的 `bin\bash.exe --login` 执行 `menu`。这个 bash 从 `git` 向上找，不用 `usr\bin\bash.exe`。桌面目录用 `[Environment]::GetFolderPath('Desktop')`。关掉 RetroArch 后，bash 和控制台一起退出。
 - RetroArch 手柄驱动是 `dinput`。八位堂猎户座蓝牙时背后开关在 D。按键在菜单端口 1 设一次，四个核心共用。`menu` 不写 `config_save_on_exit = false`。
 - 支持 Windows 10（10.0 build < 22000）和 Windows 11（build >= 22000）。`doctor` 打印 10 或 11。下载和配置不按系统分叉。中文 `ver` 的“版本”是 GBK，解析 build 时只保留数字和点。
 - 不提交 `.env`、ROM、BIOS dump、`emulators/`、`saves/`、`build/`、`manage/`。

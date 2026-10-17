@@ -11,6 +11,7 @@
 #   ./scripts/retro.bash play retroarch nes mesen
 #   ./scripts/retro.bash play mesen
 #   ./scripts/retro.bash play duckstation
+# Desktop launcher (not a subcommand): ./scripts/desktop-shortcut.bash
 
 set -euo pipefail
 
